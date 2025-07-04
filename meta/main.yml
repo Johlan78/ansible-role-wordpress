@@ -1,6 +1,8 @@
 ---
 galaxy_info:
   author: Johlan Slama
+  role_name: wordpress
+  namespace: johlan78
   description: Installe WordPress avec Apache, PHP et MariaDB
   company: ""
   license: MIT
