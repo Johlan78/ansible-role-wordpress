@@ -1,6 +1,6 @@
 ---
 galaxy_info:
-  author: Johlan Slama
+  author: Johlan78
   role_name: wordpress
   namespace: johlan78
   description: Installe WordPress avec Apache, PHP et MariaDB
