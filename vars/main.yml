@@ -1,0 +1,8 @@
+---
+# Variables dépendantes du système
+
+apache_service: "{{ 'apache2' if ansible_os_family == 'Debian' else 'httpd' }}"
+php_packages:
+  - php
+  - php-mysql
+web_user: "{{ 'www-data' if ansible_os_family == 'Debian' else 'apache' }}"

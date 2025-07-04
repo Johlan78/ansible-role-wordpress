@@ -1,0 +1,62 @@
+---
+# Crée un fichier temporaire contenant les identifiants MySQL pour root
+- name: Create temporary MySQL credentials file
+  copy:
+    dest: /root/.my.cnf
+    content: |
+      [client]
+      user=root
+      password={{ db_root_password }}
+    owner: root
+    group: root
+    mode: '0600'
+
+# Démarre le service MariaDB
+- name: Start MariaDB service
+  service:
+    name: mariadb
+    state: started
+    enabled: true
+
+# Supprime les utilisateurs anonymes
+- name: Remove anonymous users
+  mysql_user:
+    name: ''
+    host_all: true
+    state: absent
+  ignore_errors: yes
+
+# Supprime la base de test
+- name: Remove test database
+  mysql_db:
+    name: test
+    state: absent
+
+# Crée la base de données WordPress
+- name: Create WordPress database
+  mysql_db:
+    name: "{{ db_name }}"
+    state: present
+
+# Crée l'utilisateur WordPress avec les bons privilèges
+- name: Create WordPress user
+  mysql_user:
+    name: "{{ db_user }}"
+    password: "{{ db_user_password }}"
+    priv: "{{ db_name }}.*:ALL"
+    host: "localhost"
+    state: present
+
+# Recharge les privilèges
+- name: Flush privileges
+  mysql_user:
+    name: root
+    host: localhost
+    priv: "*.*:USAGE"
+    state: present
+
+# Supprime le fichier .my.cnf temporaire
+- name: Remove temporary MySQL credentials file
+  file:
+    path: /root/.my.cnf
+    state: absent

@@ -1,0 +1,44 @@
+---
+# Mise à jour des caches de paquets selon l'OS
+- name: Update APT cache (Debian/Ubuntu)
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Update DNF cache (Rocky/RedHat)
+  dnf:
+    update_cache: yes
+  when: ansible_os_family == "RedHat"
+
+# Installation des paquets système de base
+- name: Install required system packages (Debian)
+  package:
+    name:
+      - apache2
+      - mariadb-server
+      - wget
+      - unzip
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install required system packages (RedHat)
+  package:
+    name:
+      - httpd
+      - mariadb-server
+      - wget
+      - unzip
+    state: present
+  when: ansible_os_family == "RedHat"
+
+# Installation des paquets PHP
+- name: Install PHP packages
+  package:
+    name: "{{ php_packages }}"
+    state: present
+
+# Installation du module Python pour gérer MariaDB depuis Ansible
+- name: Install PyMySQL for Ansible MySQL modules
+  package:
+    name: python3-pymysql
+    state: present

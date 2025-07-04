@@ -1,0 +1,26 @@
+---
+galaxy_info:
+  author: Johlan Slama
+  description: Installe WordPress avec Apache, PHP et MariaDB
+  company: ""
+  license: MIT
+  min_ansible_version: 2.10
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - focal
+        - jammy
+    - name: EL
+      versions:
+        - 8
+        - 9
+
+  galaxy_tags:
+    - wordpress
+    - apache
+    - php
+    - mariadb
+    - cms
+
+dependencies: []

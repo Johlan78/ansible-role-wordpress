@@ -1,0 +1,9 @@
+---
+# Valeurs personnalisables
+
+db_root_password: "examplerootPW"
+db_name: "wordpress"
+db_user: "example"
+db_user_password: "examplePW"
+wp_site_path: "/var/www/html"
+wp_url: "https://wordpress.org/latest.zip"

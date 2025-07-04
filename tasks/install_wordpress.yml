@@ -1,0 +1,31 @@
+---
+# Téléchargement et installation de WordPress
+
+- name: Download WordPress archive
+  get_url:
+    url: "{{ wp_url }}"
+    dest: /tmp/latest.zip
+
+- name: Unarchive WordPress
+  unarchive:
+    src: /tmp/latest.zip
+    dest: /tmp/
+    remote_src: yes
+
+- name: Copy WordPress files to site directory
+  copy:
+    src: /tmp/wordpress/
+    dest: "{{ wp_site_path }}"
+    owner: "{{ web_user }}"
+    group: "{{ web_user }}"
+    mode: '0755'
+    remote_src: yes
+
+- name: Configure wp-config.php
+  template:
+    src: wp-config.php.j2
+    dest: "{{ wp_site_path }}/wp-config.php"
+    owner: "{{ web_user }}"
+    group: "{{ web_user }}"
+    mode: '0640'
+

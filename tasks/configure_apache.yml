@@ -1,0 +1,24 @@
+---
+# Configuration Apache spécifique à WordPress
+
+- name: Create Apache virtual host configuration
+  template:
+    src: wordpress.conf.j2
+    dest: "/etc/{{ apache_service }}/sites-available/wordpress.conf"
+  notify: reload apache
+  when: ansible_os_family == "Debian"
+
+- name: Enable WordPress site (Debian only)
+  command: a2ensite wordpress.conf
+  when: ansible_os_family == "Debian"
+  notify: reload apache
+
+- name: Enable mod_rewrite (Debian only)
+  command: a2enmod rewrite
+  when: ansible_os_family == "Debian"
+  notify: reload apache
+
+- name: Restart Apache to apply configuration
+  service:
+    name: "{{ apache_service }}"
+    state: restarted
